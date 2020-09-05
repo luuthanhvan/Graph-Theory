@@ -1,97 +1,8 @@
 #include <stdio.h>
-#define MAX_VERTICES 50
-#define MAX_ELEMENTS 50
-
-typedef struct{
-	int Elements[MAX_ELEMENTS];
-	int size;
-} List;
-
-void make_null(List *L){
-	L->size = 0;
-}
-
-void push_back(List *L, int x){
-	L->Elements[L->size] = x;
-	++L->size;
-}
-
-int element_at(List *L, int i){
-	return L->Elements[i-1];
-}
-
-int Size(List *L){
-	return L->size;
-}
-
-typedef struct{
-	int front, rear;
-	int data[MAX_ELEMENTS];
-} Queue;
-
-void make_null_queue(Queue *Q){
-	Q->front = 0;
-	Q->rear = -1;
-}
-
-void push(Queue *Q, int x){
-	++Q->rear;
-	Q->data[Q->rear] = x;
-}
-
-int top(Queue *Q){
-	return Q->data[Q->front];
-}
-
-void pop(Queue *Q){
-	++Q->front;
-}
-
-int empty(Queue *Q){
-	return Q->front > Q->rear;
-}
-
-typedef struct{
-	int n;
-	int A[MAX_VERTICES][MAX_VERTICES]; 
-} Graph;
-
-void init_graph(Graph *G, int n){
-	int i, j;
-	G->n = n;
-	for(i = 1; i <= n; ++i)
-		for(j = 1; j <= n; ++j)
-			G->A[i][j] = 0;
-}
-
-void add_edge(Graph *G, int x, int y){
-	G->A[x][y] += 1;
-	G->A[y][x] += 1;
-}
-
-int degree(Graph *G, int x){
-	int deg = 0, y;
-	for(y = 1; y <= G->n; ++y)
-		if(G->A[x][y] == 1)
-			++deg;
-	return deg;
-}
-
-int adjacent(Graph *G, int x, int y){
-	return G->A[x][y] > 0;
-}
-
-List neighbors(Graph *G, int x){
-	int y;
-	List list;
-	make_null(&list);
-	for(y = 1; y <= G->n; ++y)
-		if(adjacent(G,x,y))
-			push_back(&list,y);
-	return list;
-}
-
-int mark[MAX_VERTICES];
+#include "../storage/Queue.h"
+#include "../storage/AdjacencyMatrixGraph.h"
+#define MULTIPLE_EDGE 'M'
+#define SINGLE_EDGE 'S'
 
 void bfs1(Graph *G, int s){
 	Queue Q;
@@ -142,15 +53,31 @@ void bfs2(Graph *G, int x){
 
 int main(){
 	Graph G;
-	int n, m, e, u, v, s;
+	int nbVertices, nbEdges, edge, u, v, s;
+	char graphType, edgeType;
 	FILE *file;
 	file = fopen("../data/graph.txt", "r");
-	fscanf(file, "%d%d", &n, &m);
-	init_graph(&G,n);
-	for(e = 1; e <= m; ++e){
-		fscanf(file,"%d%d", &u, &v);
-		add_edge(&G,u,v);
+	
+	graphType = fgetc(file);
+	edgeType = fgetc(file);
+	
+	fscanf(file, "%d%d", &nbVertices, &nbEdges);
+	
+	init_graph(&G, nbVertices, graphType);
+	
+	if(edgeType == MULTIPLE_EDGE){
+		for(edge = 1; edge <= nbEdges; ++edge){
+			fscanf(file,"%d%d", &u, &v);
+			addEdgeMultiple(&G,u,v);
+		}
 	}
+	else{
+		for(edge = 1; edge <= nbEdges; ++edge){
+			fscanf(file,"%d%d", &u, &v);
+			addEdgeSingle(&G,u,v);
+		}
+	}
+	
 	printf("Enter a vertex to start: ");
 	scanf("%d", &s);
 //	bfs1(&G, s);
