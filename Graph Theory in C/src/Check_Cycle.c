@@ -8,56 +8,64 @@
 int color[100];
 int cycle;
 
-int dfs1(Graph *G, int u){
+int dfs1(Graph G, int u){
 	int i;
 	if(color[u] == GRAY)
 		return 1;
 	color[u] = GRAY; // visiting u
+	
 //	printf("%d\n", u);
-	List list = neighbors(G,u);
-	for(i = 1; i <= Size(&list); ++i){
-		int y = element_at(&list,i);
-		if(color[y] != BLACK && dfs1(G,y))
+	
+	List adjList = getAdjacentVertices(G, u);
+	
+	for(i = 1; i <= adjList.size; i++){
+		int y = getElementAt(adjList, i);
+		
+		if(color[y] != BLACK && dfs1(G, y))
 			return 1; // detected the cycle
 		if(color[y] == WHITE)
-			y = dfs1(G,y);
+			y = dfs1(G, y);
 	}
 	color[u] = BLACK; // visited u
 	return 0;
 }
 
-void dfs2(Graph *G, int u){
+void dfs2(Graph G, int u){
 	int v;
 	color[u] = GRAY; // visiting u
 //	printf("%d\n", u);
-	List list = neighbors(G,u);
-	for(v = 1; v <= Size(&list); ++v){
-		int y = element_at(&list,v);
+	
+	List adjList = getAdjacentVertices(G, u);
+	
+	for(v = 1; v <= adjList.size; v++){
+		int y = getElementAt(adjList, v);
 		if(color[y] == GRAY){
 			cycle = 1; // detected the cycle
 			return;
 		}
 		if(color[y] == WHITE)
-			dfs2(G,y);
+			dfs2(G, y);
 	}
 	color[u] = BLACK; // visited u
 }
 
-int contains_cycle(Graph *G){
+int containsCycle(Graph G){
 	int i;
-	for(i = 1; i <= G->n; ++i)
+	for(i = 1; i <= G.nbVertices; i++)
 		color[i] = WHITE;
 	cycle = 0;
-	for(i = 1; i <= G->n; ++i)
+	for(i = 1; i <= G.nbVertices; i++)
 		if(color[i] == WHITE)
-			dfs2(G,i);
+			dfs2(G, i);
 	return cycle;
 } 
 
 int main(){
 	Graph G;
 	int i;
-	init_graph(&G, 5, 'D');
+	
+	initGraph(&G, 5, 'D');
+	
 	addEdgeSingle(&G, 2, 4, 0);
 	addEdgeSingle(&G, 4, 1, 0);
 	addEdgeSingle(&G, 1, 3, 0);
@@ -66,16 +74,16 @@ int main(){
 	addEdgeSingle(&G, 1, 5, 0);
 	// testing dfs1()
 	/*
-	for(i = 1; i <= 5; ++i)
+	for(i = 1; i <= 5; i++)
 		color[i] = WHITE;
-	if(dfs1(&G,1))
+	if(dfs1(G, 1))
 		printf("The graph contains cycle.");
 	else
 		printf("The graph do not contain cycle.");
 	*/
 		
 	// testing dfs2()
-	if(contains_cycle(&G))
+	if(containsCycle(G))
 		printf("The graph contains cycle.");
 	else
 		printf("The graph do not contain cycle.");

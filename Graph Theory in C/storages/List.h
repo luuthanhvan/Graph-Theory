@@ -1,23 +1,22 @@
 #define MAX_ELEMENTS 100
 
 typedef struct{
-	int Elements[MAX_ELEMENTS];
+	int elements[MAX_ELEMENTS];
 	int size;
 } List;
 
-void make_null(List *L){
+void initList(List *L){
 	L->size = 0;
 }
 
-void push_back(List *L, int x){
-	L->Elements[L->size] = x;
-	++L->size;
+void add(List *L, int x){
+	L->elements[L->size++] = x;
 }
 
-int element_at(List *L, int i){
-	return L->Elements[i-1];
+int getElementAt(List L, int pos){
+	return L.elements[pos-1];
 }
 
-int Size(List *L){
-	return L->size;
+int getSize(List L){
+	return L.size;
 }

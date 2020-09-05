@@ -5,7 +5,7 @@ typedef struct{
 	int data[MAX_ELEMENTS];
 } Queue;
 
-void make_null_queue(Queue *Q){
+void initQueue(Queue *Q){
 	Q->front = 0;
 	Q->rear = -1;
 }
@@ -15,14 +15,14 @@ void push(Queue *Q, int x){
 	Q->data[Q->rear] = x;
 }
 
-int top(Queue *Q){
-	return Q->data[Q->front];
+int top(Queue Q){
+	return Q.data[Q.front];
 }
 
 void pop(Queue *Q){
-	++Q->front;
+	Q->front++;
 }
 
-int empty(Queue *Q){
-	return Q->front > Q->rear;
+int empty(Queue Q){
+	return Q.front > Q.rear;
 }

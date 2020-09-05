@@ -5,39 +5,42 @@
 #define SINGLE_EDGE 'S'
 
 int min(int a, int b){
-	return a < b ? a:b;
+	return a < b ? a : b;
 }
 
 int num[MAX_VERTICES]; // storage the index of all vertices during traversing
-int min_num[MAX_VERTICES]; // min index
-int on_stack[MAX_VERTICES]; // mark a vertex is on stack or not 
+int minNum[MAX_VERTICES]; // min index
+int onStack[MAX_VERTICES]; // mark a vertex is on stack or not 
 int idx; // assign the index for num[]
 Stack S;
 
-void tarjan(Graph *G, int x){
+void tarjan(Graph G, int x){
 	int j;
 	num[x] = idx;
-	min_num[x] = idx;
-	++idx;
-	push(&S,x);
-	on_stack[x] = 1; // x is on stack
-	List list = neighbors(G,x);
-	for(j = 1; j <= Size(&list); ++j){
-		int y = element_at(&list,j);
+	minNum[x] = idx;
+	idx++;
+	
+	push(&S, x);
+	onStack[x] = 1; // x is on stack
+	
+	List adjList = getAdjacentVertices(G, x);
+	
+	for(j = 1; j <= adjList.size; j++){
+		int y = getElementAt(adjList, j);
 		if(num[y] == -1){
-			tarjan(G,y);
-			min_num[x] = min(min_num[x], min_num[y]);
+			tarjan(G, y);
+			minNum[x] = min(minNum[x], minNum[y]);
 		}
-		if(on_stack[y] == 1)
-			min_num[x] = min(min_num[x], num[y]);
+		if(onStack[y] == 1)
+			minNum[x] = min(minNum[x], num[y]);
 	}
-	if(num[x] == min_num[x]){
+	if(num[x] == minNum[x]){
 		int w;
 		do{
-			w = top(&S);
+			w = top(S);
 			printf("%d\n", w);
 			pop(&S);
-			on_stack[w] = 0; // remove w from stack
+			onStack[w] = 0; // remove w from stack
 		} while(w != x);
 	}
 }
@@ -54,16 +57,16 @@ int main(){
 	
 	fscanf(file, "%d%d", &nbVertices, &nbEdges);
 	
-	init_graph(&G, nbVertices, graphType);
+	initGraph(&G, nbVertices, graphType);
 	
 	if(edgeType == MULTIPLE_EDGE){
-		for(edge = 1; edge <= nbEdges; ++edge){
+		for(edge = 1; edge <= nbEdges; edge++){
 			fscanf(file,"%d%d", &u, &v);
 			addEdgeMultiple(&G, u, v, 0);
 		}
 	}
 	else{
-		for(edge = 1; edge <= nbEdges; ++edge){
+		for(edge = 1; edge <= nbEdges; edge++){
 			fscanf(file,"%d%d", &u, &v);
 			addEdgeSingle(&G, u, v, 0);
 		}
@@ -72,9 +75,9 @@ int main(){
 
 	for(v = 1; v <= nbVertices; ++v){
 		num[v] = -1;
-		on_stack[v] = 0;
+		onStack[v] = 0;
 	}
-	make_null_stack(&S);
+	initStack(&S);
 	idx = 1;
 	
 //	printf("Enter a vertex to start: ");
@@ -83,7 +86,7 @@ int main(){
 	
 	for(v = 1; v <= nbVertices; ++v)
 		if(num[v] == -1)
-			tarjan(&G,v);
+			tarjan(G, v);
 			
 	close(file);
 	return 0;

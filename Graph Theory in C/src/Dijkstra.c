@@ -11,11 +11,11 @@ int p[MAX_VERTICES]; // store parent of u vertex in shortest distance from u ver
 int mark[MAX_VERTICES]; // check a vertex is visited or not
 int path[MAX_VERTICES];
 
-int dijkstra(Graph *G, int s){
+int dijkstra(Graph G, int s){
 	int it, i, j, v, u;
 	
 	// init pi[i] = oo and mark[i] = 0
-	for(i = 1; i <= G->n; ++i){
+	for(i = 1; i <= G.nbVertices; i++){
 		pi[i] = INFINITY;
 		mark[i] = 0;
 	}
@@ -24,10 +24,10 @@ int dijkstra(Graph *G, int s){
 	p[s] = -1; // s vertex has not parent
 	
 	// loop n-1 (or n) times
-	for(it = 1; it < G->n; ++it){
+	for(it = 1; it < G.nbVertices; it++){
 		// find a vertex with minimum pi and do not visited
 		int min_pi = INFINITY;
-		for(j = 1; j <= G->n; ++j)
+		for(j = 1; j <= G.nbVertices; j++)
 			if(mark[j] == 0 && pi[j] < min_pi){
 				min_pi = pi[j];
 				u = j; // save u
@@ -35,15 +35,15 @@ int dijkstra(Graph *G, int s){
 		mark[u] = 1; // visited u
 		
 		// get all adjacent vertices
-		List list = neighbors(G, u);
+		List adjList = getAdjacentVertices(G, u);
 		
 		// traversing all adjacent vertices
-		for(i = 1; i <= Size(&list); ++i){
-			int v = element_at(&list, i);
+		for(i = 1; i <= adjList.size; i++){
+			int v = getElementAt(adjList, i);
 			
 			// if found a new path with better distance than the old path
-			if(pi[u] + G->A[u][v] < pi[v]){
-				pi[v] = pi[u] + G->A[u][v]; // update the old path with the new path
+			if(pi[u] + G.A[u][v] < pi[v]){
+				pi[v] = pi[u] + G.A[u][v]; // update the old path with the new path
 				p[v] = u; // update parent of v
 			}
 		}
@@ -87,16 +87,16 @@ int main(){
 	
 	fscanf(file, "%d%d", &nbVertices, &nbEdges);
 	
-	init_graph(&G, nbVertices, graphType);
+	initGraph(&G, nbVertices, graphType);
 	
 	if(edgeType == MULTIPLE_EDGE){
-		for(edge = 1; edge <= nbEdges; ++edge){
+		for(edge = 1; edge <= nbEdges; edge++){
 			fscanf(file,"%d%d%d", &u, &v, &w);
 			addEdgeMultiple(&G, u, v, w);
 		}
 	}
 	else{
-		for(edge = 1; edge <= nbEdges; ++edge){
+		for(edge = 1; edge <= nbEdges; edge++){
 			fscanf(file,"%d%d%d", &u, &v, &w);
 			addEdgeSingle(&G, u, v, w);
 		}
@@ -105,7 +105,7 @@ int main(){
 	printf("Enter a vertex to start: ");
 	scanf("%d", &s);
 	
-	v = dijkstra(&G, s);
+	v = dijkstra(G, s);
 	
 	for(u = 1; u <= nbVertices; ++u)
 		printf("\nDistance from %d to %d is %d\n", s, u, pi[u]);

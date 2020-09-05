@@ -4,43 +4,44 @@
 #define MULTIPLE_EDGE 'M'
 #define SINGLE_EDGE 'S'
 
-void dfs1(Graph *G, int s){
+void dfs1(Graph G, int s){
 	int i;
 	Stack S;
 	
 	// init all vertices do not visit
-	for(i = 1; i <= G->n; ++i)
+	for(i = 1; i <= G.nbVertices; i++)
 		mark[i] = 0;
 		
-	make_null_stack(&S);
+	initStack(&S);
 	
 	// push s into Stack
-	push(&S,s);
+	push(&S, s);
 	
 	// while Stack does not empty
-	while(!empty(&S)){
-		int u = top(&S); // get the vertex at the top of Queue
+	while(!empty(S)){
+		int u = top(S); // get the vertex at the top of Queue
 		pop(&S); // remove it
 		
 		// if u is visited, then skip it
 		if(mark[u] == 1)
 			continue;
+			
 		printf("Visit %d\n", u);
 		mark[u] = 1; // else visited u
 		
 		// get all adjacent vertices
-		List list = neighbors(G,u);
+		List adjList = getAdjacentVertices(G, u);
 		
 		// traversing all adjacent vertices
-		for(i = 1; i <= Size(&list); ++i){
-			int y = element_at(&list,i);
-			push(&S,y); // push y into Stack
+		for(i = 1; i <= adjList.size; i++){
+			int y = getElementAt(adjList,i);
+			push(&S, y); // push y into Stack
 		}
 	}
 }
 
 // dfs algorithm using recrusion
-void dfs2(Graph *G, int x){
+void dfs2(Graph G, int x){
 	int i;
 	// if x is visited, stop
 	if(mark[x] == 1)
@@ -49,11 +50,11 @@ void dfs2(Graph *G, int x){
 	mark[x] = 1; // else visted x
 	
 	// get all adjacent vertices
-	List list = neighbors(G,x);
+	List adjList = getAdjacentVertices(G, x);
 	
 	// traversing all adjacent vertices 
-	for(i = Size(&list); i >= 1; --i){
-		int y = element_at(&list,i);
+	for(i = adjList.size; i >= 1; i--){
+		int y = getElementAt(adjList, i);
 		dfs2(G, y); // visit y
 	}
 }
@@ -70,16 +71,16 @@ int main(){
 	
 	fscanf(file, "%d%d", &nbVertices, &nbEdges);
 	
-	init_graph(&G, nbVertices, graphType);
+	initGraph(&G, nbVertices, graphType);
 	
 	if(edgeType == MULTIPLE_EDGE){
-		for(edge = 1; edge <= nbEdges; ++edge){
+		for(edge = 1; edge <= nbEdges; edge++){
 			fscanf(file,"%d%d", &u, &v);
 			addEdgeMultiple(&G, u, v, 0);
 		}
 	}
 	else{
-		for(edge = 1; edge <= nbEdges; ++edge){
+		for(edge = 1; edge <= nbEdges; edge++){
 			fscanf(file,"%d%d", &u, &v);
 			addEdgeSingle(&G, u, v, 0);
 		}
@@ -87,14 +88,15 @@ int main(){
 	
 	printf("Enter a vertex to start: ");
 	scanf("%d", &s);
-	dfs1(&G, s);
+	dfs1(G, s);
 	
 	// test dfs2()
-	/*
+	/*	
 	int i;
 	for(i = 1; i <= nbVertices; ++i)
 		mark[i] = 0;
-	dfs2(&G, s); */
+	dfs2(G, s); */
+	
 	close(file);
 	return 0;
 }

@@ -8,24 +8,26 @@ int mark[MAX_VERTICES];
 
 // represent an adjacency matrix graph
 typedef struct{
-	int n;
+	int nbVertices;
 	int A[MAX_VERTICES][MAX_VERTICES];
 	char directed;
 } Graph;
 
-void init_graph(Graph *G, int n, char directed){
-	int i, j;
-	G->n = n;
+// initializing the adjacency matrix graph
+void initGraph(Graph *G, int nbVertices, char directed){
+	int u, v;
+	G->nbVertices = nbVertices;
 	G->directed = directed;
-	for(i = 1; i <= n; ++i)
-		for(j = 1; j <= n; ++j)
-			G->A[i][j] = 0;
+	for(u = 1; u <= nbVertices; u++)
+		for(v = 1; v <= nbVertices; v++)
+			G->A[u][v] = 0;
 }
 
+// display the graph
 void display(Graph G){
 	int u, v;
-	for(u = 1; u <= G.n; u++){
-		for(v = 1; v <= G.n; v++){
+	for(u = 1; u <= G.nbVertices; u++){
+		for(v = 1; v <= G.nbVertices; v++){
 			printf("%d ", G.A[u][v]);
 		}
 		printf("\n");
@@ -36,7 +38,7 @@ void display(Graph G){
 // an edge: (u, v) = 1 || (x > 1) || w
 void addEdgeMultiple(Graph *G, int u, int v, int w){
 	// if the edge have the weight on it (u, v) = w
-	if(w > 0){
+	if(w != 0){
 		if(G->directed == DIRECTED){
 			G->A[u][v] = w;
 		}
@@ -60,7 +62,7 @@ void addEdgeMultiple(Graph *G, int u, int v, int w){
 // an edge: (u, v) = w || 1
 void addEdgeSingle(Graph *G, int u, int v, int w){
 	// if the edge have the weight on it (u, v) = w
-	if(w > 0){
+	if(w != 0){
 		if(G->directed == DIRECTED){
 			G->A[u][v] = w;
 		}
@@ -80,24 +82,39 @@ void addEdgeSingle(Graph *G, int u, int v, int w){
 	}
 }
 
-int degree(Graph *G, int x){
-	int deg = 0, y;
-	for(y = 1; y <= G->n; ++y)
-		if(G->A[x][y] == 1)
-			deg += G->A[x][y];
+int isAdjacent(Graph G, int u, int v){
+	return G.A[u][v] > 0;
+}
+
+List getAdjacentVertices(Graph G, int u){
+	int v;
+	List adjList;
+	initList(&adjList);
+	for(v = 1; v <= G.nbVertices; v++)
+		if(isAdjacent(G, u, v))
+			add(&adjList, v);
+	return adjList;
+}
+
+// get indegree of a directed graph (indegree >< outdegree)
+int getIndegree(Graph G, int u){
+	int v, deg = 0;
+	for(v = 1; v <= G.nbVertices; v++)
+		if(isAdjacent(G, v, u))
+			deg++;
 	return deg;
 }
 
-int adjacent(Graph *G, int x, int y){
-	return G->A[x][y] > 0;
+// get outdegree of a graph
+int getOutdegree(Graph G, int u){
+	int v, deg = 0;
+	for(v = 1; v <= G.nbVertices; v++)
+		if(isAdjacent(G, u, v))
+			deg++;
+	return deg;
 }
 
-List neighbors(Graph *G, int x){
-	int y;
-	List list;
-	make_null(&list);
-	for(y = 1; y <= G->n; ++y)
-		if(adjacent(G,x,y))
-			push_back(&list,y);
-	return list;
+// get degree of a undirected graph (indegree = outdegree)
+int getDegree(Graph G, int u){
+	return getAdjacentVertices(G, u).size;
 }

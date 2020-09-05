@@ -5,7 +5,7 @@ typedef struct{
 	int size;
 } Stack;
 
-void make_null_stack(Stack *S){
+void initStack(Stack *S){
 	S->size = 0;
 }
 
@@ -14,14 +14,14 @@ void push(Stack *S, int x){
 	++S->size;
 }
 
-int top(Stack *S){
-	return S->data[S->size-1];
+int top(Stack S){
+	return S.data[S.size-1];
 }
 
 void pop(Stack *S){
-	--S->size;
+	S->size--;
 }
 
-int empty(Stack *S){
-	return S->size == 0;
+int empty(Stack S){
+	return S.size == 0;
 }
