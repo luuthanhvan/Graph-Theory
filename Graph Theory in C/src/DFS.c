@@ -4,7 +4,7 @@
 #define MULTIPLE_EDGE 'M'
 #define SINGLE_EDGE 'S'
 
-void dfs(Graph *G, int s){
+void dfs1(Graph *G, int s){
 	int i;
 	Stack S;
 	for(i = 1; i <= G->n; ++i)
@@ -23,6 +23,20 @@ void dfs(Graph *G, int s){
 			int y = element_at(&list,i);
 			push(&S,y);
 		}
+	}
+}
+
+// dfs algorithm using recrusion
+void dfs2(Graph *G, int x){
+	int i;
+	if(mark[x] == 1)
+		return;
+	printf("Visit %d\n", x);
+	mark[x] = 1;
+	List list = neighbors(G,x);
+	for(i = Size(&list); i >= 1; --i){
+		int y = element_at(&list,i);
+		dfs2(G,y);
 	}
 }
 
@@ -55,6 +69,13 @@ int main(){
 	
 	printf("Enter a vertex to start: ");
 	scanf("%d", &s);
-	dfs(&G, s);
+	dfs1(&G, s);
+	
+	// test dfs2()
+	/*
+	int i;
+	for(i = 1; i <= nbVertices; ++i)
+		mark[i] = 0;
+	dfs2(&G, s); */
 	return 0;
 }

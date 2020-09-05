@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "List.h"
 #define MAX_VERTICES 100
 #define DIRECTED 'D'
@@ -19,6 +20,16 @@ void init_graph(Graph *G, int n, char directed){
 	for(i = 1; i <= n; ++i)
 		for(j = 1; j <= n; ++j)
 			G->A[i][j] = 0;
+}
+
+void display(Graph G){
+	int u, v;
+	for(u = 1; u <= G.n; u++){
+		for(v = 1; v <= G.n; v++){
+			printf("%d ", G.A[u][v]);
+		}
+		printf("\n");
+	}
 }
 
 // add edge for a graph which have multiple edges
