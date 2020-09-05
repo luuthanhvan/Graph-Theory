@@ -59,13 +59,13 @@ int main(){
 	if(edgeType == MULTIPLE_EDGE){
 		for(edge = 1; edge <= nbEdges; ++edge){
 			fscanf(file,"%d%d", &u, &v);
-			addEdgeMultiple(&G,u,v);
+			addEdgeMultiple(&G, u, v, 0);
 		}
 	}
 	else{
 		for(edge = 1; edge <= nbEdges; ++edge){
 			fscanf(file,"%d%d", &u, &v);
-			addEdgeSingle(&G,u,v);
+			addEdgeSingle(&G, u, v, 0);
 		}
 	}
 //	display(G);
@@ -84,5 +84,7 @@ int main(){
 	for(v = 1; v <= nbVertices; ++v)
 		if(num[v] == -1)
 			tarjan(&G,v);
+			
+	close(file);
 	return 0;
 }

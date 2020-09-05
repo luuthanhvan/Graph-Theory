@@ -93,13 +93,13 @@ int main(){
 	if(edgeType == MULTIPLE_EDGE){
 		for(edge = 1; edge <= nbEdges; ++edge){
 			fscanf(file,"%d%d", &u, &v);
-			addEdgeMultiple(&G,u,v);
+			addEdgeMultiple(&G, u, v, 0);
 		}
 	}
 	else{
 		for(edge = 1; edge <= nbEdges; ++edge){
 			fscanf(file,"%d%d", &u, &v);
-			addEdgeSingle(&G,u,v);
+			addEdgeSingle(&G, u, v, 0);
 		}
 	}
 	
@@ -107,5 +107,7 @@ int main(){
 	scanf("%d", &s);
 //	bfs1(&G, s);
 	bfs2(&G, s);
+	
+	close(file);
 	return 0;
 }

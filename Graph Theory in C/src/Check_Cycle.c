@@ -58,12 +58,12 @@ int main(){
 	Graph G;
 	int i;
 	init_graph(&G, 5, 'D');
-	addEdgeSingle(&G, 2, 4);
-	addEdgeSingle(&G, 4, 1);
-	addEdgeSingle(&G, 1, 3);
-	addEdgeSingle(&G, 3, 5);
-	addEdgeSingle(&G, 5, 2);
-	addEdgeSingle(&G, 1, 5);
+	addEdgeSingle(&G, 2, 4, 0);
+	addEdgeSingle(&G, 4, 1, 0);
+	addEdgeSingle(&G, 1, 3, 0);
+	addEdgeSingle(&G, 3, 5, 0);
+	addEdgeSingle(&G, 5, 2, 0);
+	addEdgeSingle(&G, 1, 5, 0);
 	// testing dfs1()
 	/*
 	for(i = 1; i <= 5; ++i)

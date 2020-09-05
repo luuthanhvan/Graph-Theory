@@ -75,13 +75,13 @@ int main(){
 	if(edgeType == MULTIPLE_EDGE){
 		for(edge = 1; edge <= nbEdges; ++edge){
 			fscanf(file,"%d%d", &u, &v);
-			addEdgeMultiple(&G,u,v);
+			addEdgeMultiple(&G, u, v, 0);
 		}
 	}
 	else{
 		for(edge = 1; edge <= nbEdges; ++edge){
 			fscanf(file,"%d%d", &u, &v);
-			addEdgeSingle(&G,u,v);
+			addEdgeSingle(&G, u, v, 0);
 		}
 	}
 	
@@ -95,5 +95,6 @@ int main(){
 	for(i = 1; i <= nbVertices; ++i)
 		mark[i] = 0;
 	dfs2(&G, s); */
+	close(file);
 	return 0;
 }

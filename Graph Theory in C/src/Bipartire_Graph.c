@@ -56,12 +56,12 @@ int main(){
 	Graph G;
 	int i;
 	init_graph(&G, 6, 'U');
-	addEdgeSingle(&G,1, 3);
-	addEdgeSingle(&G,1, 4);
-	addEdgeSingle(&G,3, 4);
-	addEdgeSingle(&G,3, 5);
-	addEdgeSingle(&G,4, 2);
-	addEdgeSingle(&G,5, 2);
+	addEdgeSingle(&G,1, 3, 0);
+	addEdgeSingle(&G,1, 4, 0);
+	addEdgeSingle(&G,3, 4, 0);
+	addEdgeSingle(&G,3, 5, 0);
+	addEdgeSingle(&G,4, 2, 0);
+	addEdgeSingle(&G,5, 2, 0);
 	
 	// testing dfs2()
 	if(contains_cycle(&G))

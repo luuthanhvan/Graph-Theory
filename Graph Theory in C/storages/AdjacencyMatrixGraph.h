@@ -33,24 +33,50 @@ void display(Graph G){
 }
 
 // add edge for a graph which have multiple edges
-void addEdgeMultiple(Graph *G, int u, int v){
-	if(G->directed == DIRECTED){
-		G->A[u][v] += 1;
+// an edge: (u, v) = 1 || (x > 1) || w
+void addEdgeMultiple(Graph *G, int u, int v, int w){
+	// if the edge have the weight on it (u, v) = w
+	if(w > 0){
+		if(G->directed == DIRECTED){
+			G->A[u][v] = w;
+		}
+		else{
+			G->A[u][v] = w;
+			G->A[v][u] = w;
+		}
 	}
-	else{
-		G->A[u][v] += 1;
-		G->A[v][u] += 1;
+	else{ // else (u, v) = 1 || (x > 1)
+		if(G->directed == DIRECTED){
+			G->A[u][v] += 1;
+		}
+		else{
+			G->A[u][v] += 1;
+			G->A[v][u] += 1;
+		}	
 	}
 }
 
 // add edge for a graph which have single edge
-void addEdgeSingle(Graph *G, int u, int v){
-	if(G->directed == DIRECTED){
-		G->A[u][v] = 1;
+// an edge: (u, v) = w || 1
+void addEdgeSingle(Graph *G, int u, int v, int w){
+	// if the edge have the weight on it (u, v) = w
+	if(w > 0){
+		if(G->directed == DIRECTED){
+			G->A[u][v] = w;
+		}
+		else{
+			G->A[u][v] = w;
+			G->A[v][u] = w;
+		}
 	}
-	else{
-		G->A[u][v] = 1;
-		G->A[v][u] = 1;
+	else{ // else (u, v) = 1
+		if(G->directed == DIRECTED){
+			G->A[u][v] = 1;
+		}
+		else{
+			G->A[u][v] = 1;
+			G->A[v][u] = 1;
+		}	
 	}
 }
 
