@@ -1,27 +1,40 @@
 #include <stdio.h>
-#include "../storage/Stack.h"
-#include "../storage/AdjacencyMatrixGraph.h"
+#include "../storages/Stack.h"
+#include "../storages/AdjacencyMatrixGraph.h"
 #define MULTIPLE_EDGE 'M'
 #define SINGLE_EDGE 'S'
 
 void dfs1(Graph *G, int s){
 	int i;
 	Stack S;
+	
+	// init all vertices do not visit
 	for(i = 1; i <= G->n; ++i)
 		mark[i] = 0;
+		
 	make_null_stack(&S);
+	
+	// push s into Stack
 	push(&S,s);
+	
+	// while Stack does not empty
 	while(!empty(&S)){
-		int u = top(&S);
-		pop(&S);
+		int u = top(&S); // get the vertex at the top of Queue
+		pop(&S); // remove it
+		
+		// if u is visited, then skip it
 		if(mark[u] == 1)
 			continue;
 		printf("Visit %d\n", u);
-		mark[u] = 1;
+		mark[u] = 1; // else visited u
+		
+		// get all adjacent vertices
 		List list = neighbors(G,u);
+		
+		// traversing all adjacent vertices
 		for(i = 1; i <= Size(&list); ++i){
 			int y = element_at(&list,i);
-			push(&S,y);
+			push(&S,y); // push y into Stack
 		}
 	}
 }
@@ -29,14 +42,19 @@ void dfs1(Graph *G, int s){
 // dfs algorithm using recrusion
 void dfs2(Graph *G, int x){
 	int i;
+	// if x is visited, stop
 	if(mark[x] == 1)
 		return;
 	printf("Visit %d\n", x);
-	mark[x] = 1;
+	mark[x] = 1; // else visted x
+	
+	// get all adjacent vertices
 	List list = neighbors(G,x);
+	
+	// traversing all adjacent vertices 
 	for(i = Size(&list); i >= 1; --i){
 		int y = element_at(&list,i);
-		dfs2(G,y);
+		dfs2(G, y); // visit y
 	}
 }
 

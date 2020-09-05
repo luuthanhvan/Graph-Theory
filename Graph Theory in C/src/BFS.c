@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "../storage/Queue.h"
-#include "../storage/AdjacencyMatrixGraph.h"
+#include "../storages/Queue.h"
+#include "../storages/AdjacencyMatrixGraph.h"
 #define MULTIPLE_EDGE 'M'
 #define SINGLE_EDGE 'S'
 
@@ -8,21 +8,33 @@ void bfs1(Graph *G, int s){
 	Queue Q;
 	int i;
 	make_null_queue(&Q);
+	
+	// init all vertices do not visit
 	for(i = 1; i <= G->n; ++i)
 		mark[i] = 0;
+	
+	// push s into Queue	
 	push(&Q,s);
+	
 	printf("Visit %d\n", s);
-	mark[s] = 1;
+	mark[s] = 1; // visited s
+	
+	// while Queue does not empty
 	while(!empty(&Q)){
-		int u = top(&Q);
-		pop(&Q);
+		int u = top(&Q); // get the vertex at the top of Queue
+		pop(&Q); // remove it
+		
+		// get all adjacent vertices
 		List list = neighbors(G,u);
+		
+		// traversing all adjacent vertices
 		for(i = 1; i <= Size(&list); ++i){
 			int v = element_at(&list, i);
+			// if there is a vertex v do not visit
 			if(mark[v] == 0){
 				printf("Visit %d\n", v);
-				mark[v] = 1;
-				push(&Q,v);
+				mark[v] = 1; // visited v
+				push(&Q,v); // push v into Queue
 			}
 		}
 	}
@@ -32,20 +44,33 @@ void bfs2(Graph *G, int x){
 	Queue Q;
 	int i;
 	make_null_queue(&Q);
+	
+	// init all vertices do not visit
 	for(i = 1; i <= G->n; ++i)
 		mark[i] = 0;
+	
+	// push s into Queue
 	push(&Q,x);
-	mark[x] = 1;
+	mark[x] = 1; // visited s
+	
+	// while Queue does not empty
 	while(!empty(&Q)){
-		int u = top(&Q);
-		pop(&Q);
+		// get the vertex at the top of Queue
+		int u = top(&Q); 
+		pop(&Q); // remove it
+		
 		printf("Visit %d\n", u);
+		
+		// get all adjacent vertices
 		List list = neighbors(G,u);
+		
+		// traversing all adjacent vertices
 		for(i = 1; i <= list.size; ++i){
 			int v = element_at(&list, i);
+			// if there is a vertex v do not visit
 			if(mark[v] == 0){
-				mark[v] = 1;
-				push(&Q,v);
+				mark[v] = 1; // visited v
+				push(&Q,v); // push v into Queue
 			}
 		}
 	}

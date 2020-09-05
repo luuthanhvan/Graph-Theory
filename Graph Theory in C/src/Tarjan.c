@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "../storage/AdjacencyMatrixGraph.h"
-#include "../storage/Stack.h"
+#include "../storages/AdjacencyMatrixGraph.h"
+#include "../storages/Stack.h"
 #define MULTIPLE_EDGE 'M'
 #define SINGLE_EDGE 'S'
 
