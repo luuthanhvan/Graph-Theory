@@ -15,7 +15,6 @@ typedef struct{
 
 // initializing the edge list graph
 void initGraph(Graph *G, int nbVertices){
-	int e;
 	G->nbVertices = nbVertices;
 	G->nbEdges = 0;
 }
@@ -24,7 +23,7 @@ void initGraph(Graph *G, int nbVertices){
 void display(Graph G){
 	int e;
 	for(e = 0; e < G.nbEdges; e++){
-		if(G.edges[e].w > 0){
+		if(G.edges[e].w != 0){
 			printf("(%d, %d) = %d\n", G.edges[e].u, G.edges[e].v, G.edges[e].w);
 		}
 		else{
