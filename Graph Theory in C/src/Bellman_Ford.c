@@ -97,6 +97,6 @@ int main(){
 	else
 		printf("\nThe graph do not contains negative cycle."); 
 	*/
-	fclose(stdin);
+	fclose(file);
 	return 0;
 }

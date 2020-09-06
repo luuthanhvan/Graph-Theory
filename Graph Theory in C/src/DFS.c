@@ -97,6 +97,6 @@ int main(){
 		mark[i] = 0;
 	dfs2(G, s); */
 	
-	close(file);
+	fclose(file);
 	return 0;
 }

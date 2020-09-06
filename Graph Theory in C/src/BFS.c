@@ -108,6 +108,6 @@ int main(){
 //	bfs1(&G, s);
 	bfs2(G, s);
 	
-	close(file);
+	fclose(file);
 	return 0;
 }

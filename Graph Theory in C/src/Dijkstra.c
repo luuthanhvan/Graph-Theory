@@ -112,6 +112,6 @@ int main(){
 	
 	printPath(G, v);
 	
-	fclose(stdin);
+	fclose(file);
 	return 0;
 }

@@ -80,5 +80,7 @@ Graph G;
 			printf("%d -> %d = %d\n", i, j, pi[i][j]);
 		//	printf("%d\n", G.next[i][j]);
 		}
+	
+	fclose(file);
 	return 0;
 }

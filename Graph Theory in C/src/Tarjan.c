@@ -88,6 +88,6 @@ int main(){
 		if(num[v] == -1)
 			tarjan(G, v);
 			
-	close(file);
+	fclose(file);
 	return 0;
 }
