@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class TestGraphs {
 	public static void main(String[] args) {
-		AdjacencyMatrixGraph graph = new AdjacencyMatrixGraph(4, 5, false);
+		EdgeListGraph graph = new EdgeListGraph(4, false);
 		graph.addEdge(1, 2, 0);
 		graph.addEdge(1, 3, 0);
 		graph.addEdge(2, 3, 0);

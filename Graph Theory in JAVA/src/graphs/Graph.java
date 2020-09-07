@@ -19,8 +19,8 @@ public class Graph {
 		this.nbVertices = nbVertices;
 	}
 	
-	public void setNBEdges(int nbVertices) {
-		this.nbVertices = nbVertices;
+	public void setNBEdges(int nbEdges) {
+		this.nbEdges= nbEdges;
 	}
 	
 	public void setGraphType(boolean isDirected) {
@@ -54,9 +54,12 @@ public class Graph {
 		return check;
 	}
 	
-	ArrayList<Integer> getAdjacentVertices(int u){
+	public ArrayList<Integer> getAdjacentVertices(int u){
 		ArrayList<Integer> adjList = new ArrayList<Integer>();
-		// implement in sub-class
+		for(int v = 1; v <= this.nbVertices; v++) {
+			if(this.isAdjacent(u, v))
+				adjList.add((Integer)v);
+		}
 		return adjList;
 	}
 	

@@ -1,5 +1,4 @@
 package graphs;
-import java.util.ArrayList;
 
 public class AdjacencyMatrixGraph extends Graph{
 	/* define some private attributes */
@@ -54,17 +53,6 @@ public class AdjacencyMatrixGraph extends Graph{
 	@Override
 	public boolean isAdjacent(int u, int v) {
 		return this.matrix[u][v] != 0;
-	}
-	
-	@Override
-	public ArrayList<Integer> getAdjacentVertices(int u){
-		ArrayList<Integer> adjList = new ArrayList<Integer>();
-		int nbVertices = super.getNBVertices();
-		for(int v = 1; v <= nbVertices; v++) {
-			if(this.isAdjacent(u, v))
-				adjList.add((Integer)v);
-		}
-		return adjList;
 	}
 	
 	@Override
