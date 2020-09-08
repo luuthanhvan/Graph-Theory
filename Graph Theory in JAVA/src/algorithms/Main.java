@@ -22,7 +22,7 @@ public class Main {
 		
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter a vertex to start: ");
-		int vertex = sc.nextInt();
+		int vertex = sc.nextInt(); // get user input
 		
 		DepthFirstSearch run = new DepthFirstSearch();
 		run.dfs(graph, vertex);
