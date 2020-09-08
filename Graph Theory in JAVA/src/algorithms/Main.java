@@ -4,7 +4,7 @@ import graphs.AdjacencyMatrixGraph;
 
 public class Main {
 	public static void main(String[] args) {
-		// Testing DFS algorithm
+		// Testing DFS and BFS algorithm
 		AdjacencyMatrixGraph graph = new AdjacencyMatrixGraph(8, 13, false);
 		graph.addEdge(1, 2, 0);
 		graph.addEdge(2, 3, 0);
@@ -23,9 +23,12 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter a vertex to start: ");
 		int vertex = sc.nextInt(); // get user input
-		
+		/*
 		DepthFirstSearch run = new DepthFirstSearch();
 		run.dfs(graph, vertex);
+		*/
+		BreadthFirstSearch run = new BreadthFirstSearch();
+		run.bfs(graph, vertex);
 		
 		sc.close();
 	}

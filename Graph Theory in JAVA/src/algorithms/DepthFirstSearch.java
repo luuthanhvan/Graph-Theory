@@ -22,7 +22,7 @@ public class DepthFirstSearch {
 		// push the start vertex into Stack
 		stack.push((Integer)vertex);
 		
-		// while stack is not empty
+		// while stack does not empty
 		while(!stack.empty()) {
 			int u = stack.pop(); // get the vertex at the top of Stack
 			
